@@ -1,8 +1,20 @@
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
+var mongoose = require('mongoose');
 var Celebrate = require('celebrate'); 
+var isProduction = process.env.NODE_ENV === 'production';
 
+if(isProduction){
+    mongoose.connect(process.env.MONGODB_URI);
+} else {
+    mongoose.connect('mongodb://localhost/test', {
+        useNewUrlParser: true
+    });
+    mongoose.set('debug', true);
+}
+
+require('./model/Company');
 
 var indexRouter = require('./routes/index');
 var companiesRouter = require('./routes/companies');
