@@ -1,33 +1,31 @@
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var mongoose = require('mongoose');
-var Celebrate = require('celebrate'); 
-var isProduction = process.env.NODE_ENV === 'production';
+var express = require('express')
+var logger = require('morgan')
+var mongoose = require('mongoose')
+var Celebrate = require('celebrate')
+var isProduction = process.env.NODE_ENV === 'production'
 
-if(isProduction){
-    mongoose.connect(process.env.MONGODB_URI);
+if (isProduction) {
+  mongoose.connect(process.env.MONGODB_URI)
 } else {
-    mongoose.connect('mongodb://localhost/test', {
-        useNewUrlParser: true
-    });
-    mongoose.set('debug', true);
+  mongoose.connect('mongodb://localhost/test', {
+    useNewUrlParser: true
+  })
+  mongoose.set('debug', true)
 }
 
-require('./model/Company');
+require('./model/Company')
 
-var indexRouter = require('./routes/index');
-var companiesRouter = require('./routes/companies');
+var indexRouter = require('./routes/index')
+var companiesRouter = require('./routes/companies')
 
-var app = express();
+var app = express()
 
-app.use(logger('dev'));
-app.use(express.json());
+app.use(logger('dev'))
+app.use(express.json())
 
-app.use('/', indexRouter);
-app.use('/companies', companiesRouter);
+app.use('/', indexRouter)
+app.use('/companies', companiesRouter)
 
-app.use(Celebrate.errors());
+app.use(Celebrate.errors())
 
-
-module.exports = app;
+module.exports = app
