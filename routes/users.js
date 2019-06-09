@@ -1,7 +1,9 @@
 var express = require('express')
 
 module.exports = function (userService) {
-  var router = express.Router()
+  var router = express.Router({
+    mergeParams: true
+  })
 
   /* Create new user */
   router.post('/', function (req, res, next) {

@@ -3,7 +3,9 @@ var users = require('./users')
 var workspaceValidations = require('../validations/companies')
 
 module.exports = function(workspaceService, userService) {
-  var router = express.Router()
+  var router = express.Router({
+    mergeParams: true
+  })
 
   /* Create new workspace */
   router.post('/', workspaceValidations.create, function (request, response, next) {
@@ -17,12 +19,18 @@ module.exports = function(workspaceService, userService) {
   })
 
   /* Edit existing workspace */
-  router.patch('/:workspaceId', workspaceValidations.update, function (req, res, next) {
-    res.send('edit workspaces')
+  router.patch('/:workspaceId', workspaceValidations.update, function (request, response, next) {
+    workspaceService.updateWorkspace(request.params.companyId, request.params.workspaceId, request.body, function (err, result) {
+      if (err) {
+        next(err)
+      } else {
+        response.send(result)
+      }
+    })
   })
 
   /* add users */
-  router.get('/:id/users', users(userService))
+  router.get('/:workspaceId/users', users(userService))
 
   return router;
 }
