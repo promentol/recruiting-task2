@@ -11,7 +11,7 @@ module.exports = function (userService) {
       if (err) {
         next(err)
       } else {
-        //send user
+        // send user
         response.send(request.body)
       }
     })
@@ -30,5 +30,5 @@ module.exports = function (userService) {
     })
   })
 
-  return router;
+  return router
 }

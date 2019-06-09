@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')
-var uuidv1 = require('uuid/v1');
+var uuidv1 = require('uuid/v1')
 var Schema = mongoose.Schema
 
 var UserSchema = new Schema({

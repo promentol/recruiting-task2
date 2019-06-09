@@ -7,20 +7,19 @@ function UserService () {
 }
 
 UserService.prototype.createUser = function (_id, workspaceId, body, cb) {
-
-  var self = this;
+  var self = this
   async.auto({
     unique: function (cb) {
       self.CompanyModel.findOne({
         _id,
         'workspaces._id': workspaceId,
         'workspaces.users.email': body.email
-      }, function(err, res) {
+      }, function (err, res) {
         cb(err, !res)
       })
     },
-    company: ['unique', function(res, cb) {
-      if(res.unique) {
+    company: ['unique', function (res, cb) {
+      if (res.unique) {
         self.CompanyModel.findOneAndUpdate({
           _id,
           'workspaces._id': workspaceId
@@ -36,7 +35,7 @@ UserService.prototype.createUser = function (_id, workspaceId, body, cb) {
         cb(new Error('duplicate name field'))
       }
     }]
-  }, function(err, res) {
+  }, function (err, res) {
     cb(err, res && res.company)
   })
 }
@@ -44,7 +43,7 @@ UserService.prototype.createUser = function (_id, workspaceId, body, cb) {
 UserService.prototype.removeUser = function (_id, workspaceId, email, cb) {
   this.CompanyModel.findOneAndUpdate({
     _id,
-    'workspaces._id': workspaceId,
+    'workspaces._id': workspaceId
   }, {
     $pull: {
       workspaces: {
@@ -61,4 +60,4 @@ UserService.prototype.removeUser = function (_id, workspaceId, email, cb) {
   }, cb)
 }
 
-module.exports = UserService;
+module.exports = UserService

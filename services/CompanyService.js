@@ -15,31 +15,31 @@ CompanyService.prototype.updateCompany = function (_id, body, cb) {
   }, {
     useFindAndModify: false,
     new: true
-  }, function(err, res) {
-    if(err) {
+  }, function (err, res) {
+    if (err) {
       cb(err)
     } else if (res) {
       cb(null, res)
     } else {
-      cb(new Error('Not Found'));
+      cb(new Error('Not Found'))
     }
   })
 }
 
 CompanyService.prototype.getCompanyById = function (_id, cb) {
-  this.CompanyModel.findById(_id, function(err, res) {
-    if(err) {
+  this.CompanyModel.findById(_id, function (err, res) {
+    if (err) {
       cb(err)
     } else if (res) {
       cb(null, res)
     } else {
-      cb(new Error('Not Found'));
+      cb(new Error('Not Found'))
     }
   })
 }
 
 CompanyService.prototype.getCompanies = function (cb) {
-  this.CompanyModel.find(cb);
+  this.CompanyModel.find(cb)
 }
 
 module.exports = CompanyService

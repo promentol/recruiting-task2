@@ -2,7 +2,7 @@ var express = require('express')
 var users = require('./users')
 var workspaceValidations = require('../validations/companies')
 
-module.exports = function(workspaceService, userService) {
+module.exports = function (workspaceService, userService) {
   var router = express.Router({
     mergeParams: true
   })
@@ -32,5 +32,5 @@ module.exports = function(workspaceService, userService) {
   /* add users */
   router.use('/:workspaceId/users', users(userService))
 
-  return router;
+  return router
 }

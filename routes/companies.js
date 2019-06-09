@@ -2,7 +2,7 @@ var express = require('express')
 var workspaces = require('./workspaces')
 var companyValidations = require('../validations/companies')
 
-module.exports = function(companyService, workspaceService, userService) {
+module.exports = function (companyService, workspaceService, userService) {
   var router = express.Router()
 
   /* GET companies listing. */
@@ -52,5 +52,5 @@ module.exports = function(companyService, workspaceService, userService) {
   /* add workspaces */
   router.use('/:companyId/workspaces', workspaces(workspaceService, userService))
 
-  return router;
+  return router
 }

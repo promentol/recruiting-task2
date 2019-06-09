@@ -7,19 +7,18 @@ function WorkspaceService () {
 }
 
 WorkspaceService.prototype.createWorkspace = function (_id, body, cb) {
-
-  var self = this;
+  var self = this
   async.auto({
     unique: function (cb) {
       self.CompanyModel.findOne({
         _id,
         'workspaces.name': body.name
-      }, function(err, res) {
+      }, function (err, res) {
         cb(err, !res)
       })
     },
-    company: ['unique', function(res, cb) {
-      if(res.unique) {
+    company: ['unique', function (res, cb) {
+      if (res.unique) {
         self.CompanyModel.findOneAndUpdate({
           _id
         }, {
@@ -34,22 +33,22 @@ WorkspaceService.prototype.createWorkspace = function (_id, body, cb) {
         cb(new Error('duplicate name field'))
       }
     }],
-    workspace: ['company', function(res, cb) {
-      if(res.company) {
-        cb(null, res.company.workspaces.find(function(w) {
+    workspace: ['company', function (res, cb) {
+      if (res.company) {
+        cb(null, res.company.workspaces.find(function (w) {
           return w.name === body.name
         }))
       } else {
         cb(new Error('Not Found'))
       }
     }]
-  }, function(err, res) {
+  }, function (err, res) {
     cb(err, res && res.workspace)
   })
 }
 
 WorkspaceService.prototype.updateWorkspace = function (_id, workspaceId, body, cb) {
-  var self = this;
+  var self = this
   async.auto({
     unique: function (cb) {
       self.CompanyModel.findOne({
@@ -58,12 +57,12 @@ WorkspaceService.prototype.updateWorkspace = function (_id, workspaceId, body, c
         'workspaces._id': {
           $ne: workspaceId
         }
-      }, function(err, res) {
+      }, function (err, res) {
         cb(err, !res)
       })
     },
-    company: ['unique', function(res, cb) {
-      if(res.unique) {
+    company: ['unique', function (res, cb) {
+      if (res.unique) {
         self.CompanyModel.findOneAndUpdate({
           _id,
           'workspaces._id': workspaceId
@@ -80,18 +79,18 @@ WorkspaceService.prototype.updateWorkspace = function (_id, workspaceId, body, c
         cb(new Error('duplicate name field'))
       }
     }],
-    workspace: ['company', function(res, cb) {
-      if(res.company) {
-        cb(null, res.company.workspaces.find(function(w) {
+    workspace: ['company', function (res, cb) {
+      if (res.company) {
+        cb(null, res.company.workspaces.find(function (w) {
           return w.name === body.name
         }))
       } else {
         cb(new Error('Not Found'))
       }
     }]
-  }, function(err, res) {
+  }, function (err, res) {
     cb(err, res && res.workspace)
   })
 }
 
-module.exports = WorkspaceService;
+module.exports = WorkspaceService

@@ -4,14 +4,12 @@ var celebrate = c.celebrate
 
 var Joi = c.Joi
 
-var errors = c.errors
-
 module.exports = {
   create: celebrate({
     body: Joi.object().keys({
       displayName: Joi.string().required(),
       name: Joi.string().default(function (values) {
-        return values.displayName.toLowerCase();
+        return values.displayName.toLowerCase()
       }, 'Lower case name')
     })
 
@@ -20,7 +18,7 @@ module.exports = {
     body: Joi.object().keys({
       displayName: Joi.string().required(),
       name: Joi.string().default(function (values) {
-        return values.displayName.toLowerCase();
+        return values.displayName.toLowerCase()
       }, 'Lower case name')
     })
 

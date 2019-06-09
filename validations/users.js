@@ -4,8 +4,6 @@ var celebrate = c.celebrate
 
 var Joi = c.Joi
 
-var errors = c.errors
-
 module.exports = {
   create: celebrate({
     body: Joi.object().keys({
