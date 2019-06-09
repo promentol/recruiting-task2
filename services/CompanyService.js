@@ -12,11 +12,27 @@ CompanyService.prototype.createCompany = function (body, cb) {
 CompanyService.prototype.updateCompany = function (_id, body, cb) {
   this.CompanyModel.findByIdAndUpdate(_id, {
     $set: body
-  }, cb)
+  }, function(err, res) {
+    if(err) {
+      cb(err)
+    } else if (res) {
+      cb(null, res)
+    } else {
+      cb(new Error('Not Found'));
+    }
+  })
 }
 
 CompanyService.prototype.getCompanyById = function (_id, cb) {
-  this.CompanyModel.findById(_id, cb)
+  this.CompanyModel.findById(_id, function(err, res) {
+    if(err) {
+      cb(err)
+    } else if (res) {
+      cb(null, res)
+    } else {
+      cb(new Error('Not Found'));
+    }
+  })
 }
 
 CompanyService.prototype.getCompanies = function (cb) {

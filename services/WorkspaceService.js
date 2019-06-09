@@ -35,9 +35,13 @@ WorkspaceService.prototype.createWorkspace = function (_id, body, cb) {
       }
     }],
     workspace: ['company', function(res, cb) {
-      cb(null, res.company.workspaces.find(function(w) {
-        return w.name === body.name
-      }))
+      if(res.company) {
+        cb(null, res.company.workspaces.find(function(w) {
+          return w.name === body.name
+        }))
+      } else {
+        cb(new Error('Not Found'))
+      }
     }]
   }, function(err, res) {
     cb(err, res && res.workspace)
@@ -77,9 +81,13 @@ WorkspaceService.prototype.updateWorkspace = function (_id, workspaceId, body, c
       }
     }],
     workspace: ['company', function(res, cb) {
-      cb(null, res.company.workspaces.find(function(w) {
-        return w.name === body.name
-      }))
+      if(res.company) {
+        cb(null, res.company.workspaces.find(function(w) {
+          return w.name === body.name
+        }))
+      } else {
+        cb(new Error('Not Found'))
+      }
     }]
   }, function(err, res) {
     cb(err, res && res.workspace)
