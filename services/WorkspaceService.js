@@ -33,9 +33,14 @@ WorkspaceService.prototype.createWorkspace = function (_id, body, cb) {
       } else {
         cb(new Error('duplicate name field'))
       }
+    }],
+    workspace: ['company', function(res, cb) {
+      cb(null, res.company.workspaces.find(function(w) {
+        return w.name === body.name
+      }))
     }]
   }, function(err, res) {
-    cb(err, res && res.company)
+    cb(err, res && res.workspace)
   })
 }
 
@@ -70,9 +75,14 @@ WorkspaceService.prototype.updateWorkspace = function (_id, workspaceId, body, c
       } else {
         cb(new Error('duplicate name field'))
       }
+    }],
+    workspace: ['company', function(res, cb) {
+      cb(null, res.company.workspaces.find(function(w) {
+        return w.name === body.name
+      }))
     }]
   }, function(err, res) {
-    cb(err, res && res.company)
+    cb(err, res && res.workspace)
   })
 }
 

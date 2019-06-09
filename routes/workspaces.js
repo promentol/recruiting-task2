@@ -30,7 +30,7 @@ module.exports = function(workspaceService, userService) {
   })
 
   /* add users */
-  router.get('/:workspaceId/users', users(userService))
+  router.use('/:workspaceId/users', users(userService))
 
   return router;
 }
