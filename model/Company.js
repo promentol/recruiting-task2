@@ -1,11 +1,11 @@
 var mongoose = require('mongoose')
-
+var uuidv1 = require('uuid/v1');
 var Schema = mongoose.Schema
 
 var UserSchema = new Schema({
   email: {
     type: String,
-    unique: true
+    index: true
   },
   role: {
     type: String,
@@ -14,7 +14,10 @@ var UserSchema = new Schema({
 })
 
 var WorkSpaceSchema = new Schema({
-  _id: Schema.ObjectId,
+  _id: {
+    type: String,
+    default: uuidv1
+  },
   displayName: {
     type: String,
     index: true,
@@ -22,16 +25,16 @@ var WorkSpaceSchema = new Schema({
   },
   name: {
     type: String,
-    unique: true,
-    default: function (a, s, d) {
-      console.log(a, s, d, this)
-    }
+    index: true
   },
   users: [UserSchema]
 })
 
 var CompanySchema = new Schema({
-  _id: Schema.ObjectId,
+  _id: {
+    type: String,
+    default: uuidv1
+  },
   displayName: {
     type: String,
     default: '',
@@ -39,10 +42,7 @@ var CompanySchema = new Schema({
   },
   name: {
     type: String,
-    unique: true,
-    default: function (a, s, d) {
-      console.log(a, s, d, this)
-    }
+    unique: true
   },
   workspaces: [WorkSpaceSchema]
 })

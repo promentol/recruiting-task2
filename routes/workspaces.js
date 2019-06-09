@@ -1,18 +1,28 @@
 var express = require('express')
-var router = express.Router()
 var users = require('./users')
+var workspaceValidations = require('../validations/companies')
 
-/* Create new workspace */
-router.post('/', function (req, res, next) {
-  res.send('workspaces')
-})
+module.exports = function(workspaceService, userService) {
+  var router = express.Router()
 
-/* Edit existing workspace */
-router.patch('/:workspaceId', function (req, res, next) {
-  res.send('edit workspaces')
-})
+  /* Create new workspace */
+  router.post('/', workspaceValidations.create, function (request, response, next) {
+    workspaceService.createWorkspace(request.params.companyId, request.body, function (err, result) {
+      if (err) {
+        next(err)
+      } else {
+        response.send(result)
+      }
+    })
+  })
 
-/* add users */
-router.get('/:id/users', users)
+  /* Edit existing workspace */
+  router.patch('/:workspaceId', workspaceValidations.update, function (req, res, next) {
+    res.send('edit workspaces')
+  })
 
-module.exports = router
+  /* add users */
+  router.get('/:id/users', users(userService))
+
+  return router;
+}

@@ -1,35 +1,56 @@
 var express = require('express')
-var router = express.Router()
-var workspacess = require('./workspaces')
+var workspaces = require('./workspaces')
 var companyValidations = require('../validations/companies')
 
-/* GET companies listing. */
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource')
-})
+module.exports = function(companyService, workspaceService, userService) {
+  var router = express.Router()
 
-/* POST create company. */
-router.post('/', companyValidations.create, function (req, res, next) {
-  CompanyService.create(req.body, function (err, res) {
-    if (err) {
-      next(err)
-    } else {
-      res.send(res)
-    }
+  /* GET companies listing. */
+  router.get('/', function (request, response, next) {
+    companyService.getCompanies(function (err, result) {
+      if (err) {
+        next(err)
+      } else {
+        response.send(result)
+      }
+    })
   })
-})
 
-/* GET list company. */
-router.get('/:companyId', function (req, res, next) {
-  res.send('get company')
-})
+  /* POST create company. */
+  router.post('/', companyValidations.create, function (request, response, next) {
+    companyService.createCompany(request.body, function (err, result) {
+      if (err) {
+        next(err)
+      } else {
+        response.send(result)
+      }
+    })
+  })
 
-/* Patch company. */
-router.patch('/:companyId', companyValidations.update, function (req, res, next) {
-  res.send('patch company')
-})
+  /* GET list company. */
+  router.get('/:companyId', function (request, response, next) {
+    companyService.getCompanyById(request.params.companyId, function (err, result) {
+      if (err) {
+        next(err)
+      } else {
+        response.send(result)
+      }
+    })
+  })
 
-/* add workspaces */
-router.use('/:companyId/workspaces', workspacess)
+  /* Patch company. */
+  router.patch('/:companyId', companyValidations.update, function (request, response, next) {
+    companyService.updateCompany(request.params.companyId, request.body, function (err, result) {
+      if (err) {
+        next(err)
+      } else {
+        response.send(result)
+      }
+    })
+  })
 
-module.exports = router
+  /* add workspaces */
+  router.use('/:companyId/workspaces', workspaces(workspaceService, userService))
+
+  return router;
+}

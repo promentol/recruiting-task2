@@ -1,15 +1,17 @@
 var express = require('express')
-var router = express.Router()
-var users = require('./users')
 
-/* Create new user */
-router.post('/', function (req, res, next) {
-  res.send('new user id')
-})
+module.exports = function (userService) {
+  var router = express.Router()
 
-/* Remove user */
-router.delete('/:userId', function (req, res, next) {
-  res.send('removed')
-})
+  /* Create new user */
+  router.post('/', function (req, res, next) {
+    res.send('new user id')
+  })
 
-module.exports = router
+  /* Remove user */
+  router.delete('/:userId', function (req, res, next) {
+    res.send('removed')
+  })
+
+  return router;
+}
