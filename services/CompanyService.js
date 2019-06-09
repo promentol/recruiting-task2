@@ -12,6 +12,9 @@ CompanyService.prototype.createCompany = function (body, cb) {
 CompanyService.prototype.updateCompany = function (_id, body, cb) {
   this.CompanyModel.findByIdAndUpdate(_id, {
     $set: body
+  }, {
+    useFindAndModify: false,
+    new: true
   }, function(err, res) {
     if(err) {
       cb(err)

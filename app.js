@@ -36,4 +36,16 @@ app.use('/companies', companiesRouter(companyService, workspaceService, userServ
 
 app.use(Celebrate.errors())
 
+app.use(function(err, req, res, next) {
+  if(err.message == 'Not Found') {
+    res.status(404).send({
+      message: err.message
+    })
+  } else {
+    res.status(500).send({
+      message: err.message
+    })
+  }
+})
+
 module.exports = app
